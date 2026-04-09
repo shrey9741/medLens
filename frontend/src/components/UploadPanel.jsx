@@ -54,12 +54,13 @@ export default function UploadPanel({ analysisState, setAnalysisState }) {
       flexDirection: 'column',
       gap: '24px',
       height: 'calc(100vh - 128px)',
-      overflowY: 'auto',
+      maxHeight: 'calc(100vh - 128px)',
+      overflowY: 'hidden',
       scrollbarWidth: 'none',
     }}>
 
       {/* Agent Status Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', flexShrink: 0 }}>
         {AGENTS.map((agent) => {
           const isActive = activeAgents.includes(agent)
           return (
@@ -95,6 +96,8 @@ export default function UploadPanel({ analysisState, setAnalysisState }) {
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         style={{
+          flex: 1,
+          minHeight: 0,
           backgroundColor: '#111416',
           borderRadius: '12px',
           border: '1px solid rgba(255,255,255,0.05)',
@@ -103,10 +106,8 @@ export default function UploadPanel({ analysisState, setAnalysisState }) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '48px',
+          padding: '32px',
           overflow: 'hidden',
-          minHeight: analysisState.analyzed ? '480px' : '420px',
-          maxHeight: analysisState.analyzed ? '560px' : '520px',
         }}
       >
         {/* Dot grid background */}
@@ -131,9 +132,9 @@ export default function UploadPanel({ analysisState, setAnalysisState }) {
                 alt="preview"
                 style={{
                   width: '100%',
-                  maxHeight: analysisState.analyzed ? '340px' : '180px',
+                  maxHeight: '300px',
                   borderRadius: '10px',
-                  marginBottom: '24px',
+                  marginBottom: '20px',
                   border: '1px solid rgba(255,255,255,0.1)',
                   objectFit: 'contain'
                 }}
@@ -141,7 +142,7 @@ export default function UploadPanel({ analysisState, setAnalysisState }) {
               {analysisState.analyzed && (
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: '8px',
-                  marginBottom: '24px',
+                  marginBottom: '20px',
                   backgroundColor: 'rgba(52,211,153,0.08)',
                   border: '1px solid rgba(52,211,153,0.2)',
                   borderRadius: '8px', padding: '8px 16px',
@@ -215,7 +216,7 @@ export default function UploadPanel({ analysisState, setAnalysisState }) {
 
         {/* Technical Footer */}
         <div style={{
-          position: 'absolute', bottom: '24px', left: '24px', right: '24px',
+          position: 'absolute', bottom: '20px', left: '24px', right: '24px',
           display: 'flex', justifyContent: 'space-between'
         }}>
           <div style={{ display: 'flex', gap: '16px' }}>

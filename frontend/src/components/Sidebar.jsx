@@ -7,7 +7,7 @@ const agents = [
 
 const supported = ['Chest X-rays', 'Brain MRI', 'Bone X-rays', 'Skin lesions', 'Retinal scans']
 
-export default function Sidebar({ activeAgent, setActiveAgent }) {
+export default function Sidebar({ activeAgent, setActiveAgent, onReset }) {
   return (
     <aside style={{
       position: 'fixed', left: 0, top: 0,
@@ -38,15 +38,21 @@ export default function Sidebar({ activeAgent, setActiveAgent }) {
       </div>
 
       {/* New Diagnostic Button */}
-      <button style={{
-        marginBottom: '24px', width: '100%',
-        padding: '12px 16px',
-        background: 'linear-gradient(135deg, #c1c7ce, #41474d)',
-        color: '#3b4147', fontWeight: 700,
-        borderRadius: '8px', border: 'none',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-        cursor: 'pointer', fontSize: '14px',
-      }}>
+      <button
+        onClick={onReset}
+        style={{
+          marginBottom: '24px', width: '100%',
+          padding: '12px 16px',
+          background: 'linear-gradient(135deg, #c1c7ce, #41474d)',
+          color: '#3b4147', fontWeight: 700,
+          borderRadius: '8px', border: 'none',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+          cursor: 'pointer', fontSize: '14px',
+          transition: 'opacity 0.2s',
+        }}
+        onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+        onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+      >
         <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>add</span>
         New Diagnostic
       </button>
@@ -57,6 +63,18 @@ export default function Sidebar({ activeAgent, setActiveAgent }) {
           <div
             key={agent.name}
             onClick={() => setActiveAgent(agent.name)}
+            onMouseEnter={e => {
+              if (activeAgent !== agent.name) {
+                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'
+              }
+            }}
+            onMouseLeave={e => {
+              if (activeAgent !== agent.name) {
+                e.currentTarget.style.backgroundColor = '#0d1421'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+              }
+            }}
             style={{
               padding: '12px 14px',
               borderRadius: '10px',
@@ -128,17 +146,21 @@ export default function Sidebar({ activeAgent, setActiveAgent }) {
       {/* Bottom links */}
       <div style={{ marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {[['menu_book', 'Docs'], ['logout', 'Logout']].map(([icon, label]) => (
-          <div key={label} style={{
-            display: 'flex', alignItems: 'center', gap: '12px',
-            padding: '10px 12px', cursor: 'pointer', borderRadius: '8px',
-            color: '#6b7280', fontSize: '13px',
-          }}>
+          <div
+            key={label}
+            onMouseEnter={e => e.currentTarget.style.color = '#e2e8f0'}
+            onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              padding: '10px 12px', cursor: 'pointer', borderRadius: '8px',
+              color: '#6b7280', fontSize: '13px', transition: 'color 0.2s',
+            }}
+          >
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{icon}</span>
             <span>{label}</span>
           </div>
         ))}
       </div>
-
     </aside>
   )
 }
